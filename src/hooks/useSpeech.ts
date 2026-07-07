@@ -59,39 +59,43 @@ export function speak(text: string): void {
     voicesCache = speechSynthesis.getVoices();
   }
 
+  const isMandarin = (v: SpeechSynthesisVoice) => {
+    const lang = v.lang.toLowerCase();
+    const name = v.name.toLowerCase();
+    // 必须是中文
+    if (!lang.startsWith('zh')) return false;
+    // 绝对排除粤语、香港、台湾、繁体
+    if (lang.includes('hk') || lang.includes('tw') || lang.includes('hant') || lang.includes('yue')) return false;
+    if (name.includes('cantonese') || name.includes('hk') || name.includes('tw') || name.includes('sin-ji') || name.includes('yue')) return false;
+    if (name.includes('siri')) return false;
+    return true;
+  };
+
   // 第一优先级：寻找明确的纯正普通话女声 (iOS 常见 Ting-Ting, Xiaoxiao，或明确标为普通话)
   let voice = voicesCache.find(v => 
-    v.lang.startsWith('zh') && 
-    (v.name.includes('Ting-Ting') || v.name.includes('普通话') || v.name.includes('Mandarin') || v.name.includes('Xiaoxiao')) &&
-    !v.name.includes('Siri') &&
-    !v.name.toLowerCase().includes('cantonese')
+    isMandarin(v) && 
+    (v.name.includes('Ting-Ting') || v.name.includes('普通话') || v.name.includes('Mandarin') || v.name.includes('Xiaoxiao') || v.name.includes('Lili') || v.name.includes('Bao-Bao'))
   );
 
-  // 第二优先级：只要是 zh-CN 并且不是粤语/台湾，就接受
+  // 第二优先级：只要标了 CN 或者 Hans 就行
   if (!voice) {
     voice = voicesCache.find(v => 
-      v.lang === 'zh-CN' && 
-      !v.name.includes('Siri') && 
-      !v.name.toLowerCase().includes('cantonese') &&
-      !v.name.toLowerCase().includes('hk') &&
-      !v.name.toLowerCase().includes('tw')
+      isMandarin(v) && 
+      (v.lang.toLowerCase().includes('cn') || v.lang.toLowerCase().includes('hans'))
     );
   }
 
-  // 第三优先级：如果是 Mac/iOS，某些声音可能带有区域标记但实际上是普通话，但避免 Sin-Ji (粤语) 和 Siri
+  // 第三优先级：任何通过 isMandarin 测试的中文声音
   if (!voice) {
-    voice = voicesCache.find(v => 
-      v.lang.startsWith('zh') && 
-      !v.name.includes('Siri') && 
-      !v.name.includes('Sin-Ji') && 
-      !v.name.includes('Kanya') && // 排除泰语等异常匹配
-      !v.name.toLowerCase().includes('cantonese') &&
-      !v.name.toLowerCase().includes('hk')
-    );
+    voice = voicesCache.find(v => isMandarin(v));
   }
 
   if (voice) {
     utterance.voice = voice;
+    utterance.lang = voice.lang;
+  } else {
+    // 强制给一个明确的大陆简中标识
+    utterance.lang = 'zh-CN';
   }
 
   // 立即播报
