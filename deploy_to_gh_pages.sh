@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+unset GITHUB_TOKEN
 
 cd /Users/RondoT/Downloads/app_179m3p95vt8
 
