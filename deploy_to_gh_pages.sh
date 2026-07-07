@@ -42,6 +42,11 @@ if [ -d "dist/output_static" ]; then
     cp -r dist/output_static/* deploy_dist/ || true
 fi
 
+echo "Replacing template variables in index.html..."
+sed -i '' 's/{{appName}}/幼升小趣味闯关/g' deploy_dist/index.html
+sed -i '' 's/{{appDescription}}/幼升小趣味答题闯关游戏/g' deploy_dist/index.html
+sed -i '' 's|{{appAvatar}}|data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌈</text></svg>|g' deploy_dist/index.html
+
 echo "Deploying to gh-pages branch..."
 npx gh-pages -d deploy_dist
 
