@@ -127,28 +127,30 @@ export default function PlayingView({
   return (
     <div className="relative z-10 flex flex-col min-h-screen min-h-dvh px-4 py-4">
       {/* 顶部栏 */}
-      <div className="flex items-center justify-between mb-4 md:mb-6">
-        <button
-          onClick={onBack}
-          className="candy-btn px-4 py-2 text-base flex items-center gap-1"
-          style={{ backgroundColor: 'rgba(255,255,255,0.8)', color: '#666' }}
-          aria-label="返回"
-        >
-          ← 返回
-        </button>
+      <div className="flex flex-col gap-3 mb-4 md:mb-6">
+        <div className="flex items-center justify-between">
+          <button
+            onClick={onBack}
+            className="candy-btn px-4 py-2 text-base flex items-center gap-1"
+            style={{ backgroundColor: 'rgba(255,255,255,0.8)', color: '#666' }}
+            aria-label="返回"
+          >
+            ← 返回
+          </button>
 
-        <div
-          className="candy-card px-5 py-2 flex items-center gap-2"
-          style={{ backgroundColor: cfg.bg }}
-        >
-          <span className="text-xl">{cfg.emoji}</span>
-          <span className="text-lg font-bold" style={{ color: cfg.color }}>
-            {cfg.label}
-          </span>
+          <div
+            className="candy-card px-5 py-2 flex items-center gap-2"
+            style={{ backgroundColor: cfg.bg }}
+          >
+            <span className="text-xl">{cfg.emoji}</span>
+            <span className="text-lg font-bold" style={{ color: cfg.color }}>
+              {cfg.label}
+            </span>
+          </div>
         </div>
 
-        {/* 星星进度 */}
-        <div className="flex items-center gap-1" aria-label={`进度 ${currentIndex + 1}/${total}`}>
+        {/* 星星进度 - 单独占据一行并居中，防止小屏幕被挤压 */}
+        <div className="flex flex-wrap items-center justify-center gap-1" aria-label={`进度 ${currentIndex + 1}/${total}`}>
           {Array.from({ length: total }, (_, i) => (
             <span
               key={i}

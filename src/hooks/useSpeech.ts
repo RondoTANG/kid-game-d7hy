@@ -59,27 +59,35 @@ export function speak(text: string): void {
     voicesCache = speechSynthesis.getVoices();
   }
 
-  // 第一优先级：寻找明确标为普通话/Ting-Ting的名字
+  // 第一优先级：寻找明确的纯正普通话女声 (iOS 常见 Ting-Ting, Xiaoxiao，或明确标为普通话)
   let voice = voicesCache.find(v => 
     v.lang.startsWith('zh') && 
-    (v.name.includes('Ting-Ting') || v.name.includes('普通话') || v.name.includes('Mandarin') || v.name.includes('zh-CN')) &&
-    !v.name.includes('Siri')
+    (v.name.includes('Ting-Ting') || v.name.includes('普通话') || v.name.includes('Mandarin') || v.name.includes('Xiaoxiao')) &&
+    !v.name.includes('Siri') &&
+    !v.name.toLowerCase().includes('cantonese')
   );
 
-  // 第二优先级：寻找任何大陆中文，但排除 Siri（Siri在Mac上经常绑定为系统默认偏好）和粤语/台湾腔
+  // 第二优先级：只要是 zh-CN 并且不是粤语/台湾，就接受
   if (!voice) {
     voice = voicesCache.find(v => 
       v.lang === 'zh-CN' && 
       !v.name.includes('Siri') && 
-      !v.name.includes('Cantonese') &&
+      !v.name.toLowerCase().includes('cantonese') &&
       !v.name.toLowerCase().includes('hk') &&
       !v.name.toLowerCase().includes('tw')
     );
   }
 
-  // 第三优先级：强行抓取 zh-CN
+  // 第三优先级：如果是 Mac/iOS，某些声音可能带有区域标记但实际上是普通话，但避免 Sin-Ji (粤语) 和 Siri
   if (!voice) {
-    voice = voicesCache.find(v => v.lang === 'zh-CN');
+    voice = voicesCache.find(v => 
+      v.lang.startsWith('zh') && 
+      !v.name.includes('Siri') && 
+      !v.name.includes('Sin-Ji') && 
+      !v.name.includes('Kanya') && // 排除泰语等异常匹配
+      !v.name.toLowerCase().includes('cantonese') &&
+      !v.name.toLowerCase().includes('hk')
+    );
   }
 
   if (voice) {
