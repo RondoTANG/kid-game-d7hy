@@ -33,8 +33,17 @@ else
     REPO_NAME=$(git remote get-url origin | sed -e 's/.*github.com[:/]\(.*\)\.git/\1/' | cut -d'/' -f2)
 fi
 
+echo "Preparing standard flat dist structure..."
+rm -rf deploy_dist
+mkdir deploy_dist
+cp -r dist/output/* deploy_dist/
+cp -r dist/output_resource/* deploy_dist/
+if [ -d "dist/output_static" ]; then
+    cp -r dist/output_static/* deploy_dist/ || true
+fi
+
 echo "Deploying to gh-pages branch..."
-npx gh-pages -d dist
+npx gh-pages -d deploy_dist
 
 echo "Activating GitHub Pages..."
 OWNER=$(gh api user -q ".login")
