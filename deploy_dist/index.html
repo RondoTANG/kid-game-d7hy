@@ -9,7 +9,7 @@
     }catch(e){return true}
   })();
   if(needsPolyfill){
-    document.write('<script src="./assets/polyfills.js"><\/script>');
+    document.write('<script src="/kid-game-d7hy/assets/polyfills.js"><\/script>');
   }
 })();</script><script>window.appId = "{{appId}}";
     window.userId = "{{userId}}";
@@ -18,9 +18,9 @@
     window.csrfToken = "{{csrfToken}}";
     window.ENVIRONMENT = "{{environment}}";
     const appInfo = {
-      name: "幼升小趣味闯关",
-      avatar: "{data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌈</text></svg>}",
-      description: "幼升小趣味答题闯关游戏",
+      name: "{{appName}}",
+      avatar: "{{{appAvatar}}}",
+      description: "{{appDescription}}",
     };
     if (appInfo.name) {
       window._appInfo = appInfo;
@@ -100,4 +100,4 @@
   teaScript.onerror = function() {
     console.warn('Failed to load Tea script');
   };
-  document.head.appendChild(teaScript);</script><meta charset="UTF-8"><link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌈</text></svg>"><meta name="viewport" content="width=device-width,initial-scale=1"><title>幼升小趣味闯关</title><link href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌈</text></svg>" rel="shortcut icon"><script type="module" crossorigin src="./assets/index-8BcoOM5c.js"></script><link rel="stylesheet" crossorigin href="./assets/index-CZqb_n8t.css"><meta property="og:title" content="幼升小趣味闯关"><meta property="og:description" content="幼升小趣味答题闯关游戏"><meta property="og:image" content="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌈</text></svg>"><meta name="description" content="幼升小趣味答题闯关游戏"></head><body><div id="root"></div></body></html>
+  document.head.appendChild(teaScript);</script><meta charset="UTF-8"><link rel="icon" type="image/svg+xml" href="{{appAvatar}}"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{{appName}}</title><link href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌈</text></svg>" rel="shortcut icon"><script type="module" crossorigin src="/kid-game-d7hy/assets/index-DEqa-Z3_.js"></script><link rel="stylesheet" crossorigin href="/kid-game-d7hy/assets/index-2FHXIoRR.css"><meta property="og:title" content="{{appName}}"><meta property="og:description" content="{{appDescription}}"><meta property="og:image" content="{{appAvatar}}"><meta name="description" content="{{appDescription}}"></head><body><div id="root"></div></body></html>

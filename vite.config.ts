@@ -2,7 +2,7 @@ import path from 'path'
 import { defineConfig } from '@lark-apaas/coding-preset-vite-react'
 
 export default defineConfig({
-  base: './',
+  base: '/kid-game-d7hy/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),

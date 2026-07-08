@@ -35,15 +35,16 @@ export function speak(text: string): void {
   speechSynthesis.cancel();
 
   // 1. 文本预处理（数学符号与拼音）
-  let processedText = text
+  // 开头加一个中文逗号，让语音引擎稍作停顿，避免吞掉第一个字
+  let processedText = '，' + text
     .replace(/-/g, '减')
     .replace(/\+/g, '加')
     .replace(/=/g, '等于')
     .replace(/\?/g, '？');
 
-  // 动态替换拼音词
+  // 动态替换拼音词，并且在后面加一个逗号，让拼音字读完后稍作停顿
   PINYIN_WORDS.forEach(item => {
-    processedText = processedText.replace(new RegExp(`"${item.word}"`, 'g'), item.hz);
+    processedText = processedText.replace(new RegExp(`"${item.word}"`, 'g'), item.hz + '，');
   });
 
   if (pinyinMap[processedText]) {
@@ -53,6 +54,7 @@ export function speak(text: string): void {
   // 2. 创建播报对象
   const utterance = new SpeechSynthesisUtterance(processedText);
   utterance.lang = 'zh-CN'; // 强制标识为简体中文
+  utterance.rate = 0.85; // 稍微放慢全局语速，适合儿童听题
 
   // 3. 严格同步匹配纯正普通话发音（绝对不能有 await 否则 Safari 会忽略 voice 设置而使用系统默认粤语）
   if (voicesCache.length === 0) {

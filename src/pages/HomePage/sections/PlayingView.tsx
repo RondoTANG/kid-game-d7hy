@@ -45,7 +45,7 @@ export default function PlayingView({
   // 自动播报题目
   useEffect(() => {
     if (currentQ) {
-      const timer = setTimeout(() => speak(currentQ.question), 400);
+      const timer = setTimeout(() => speak(currentQ.question), 1000);
       return () => clearTimeout(timer);
     }
   }, [currentQ]);
@@ -185,8 +185,8 @@ export default function PlayingView({
         </div>
       </div>
 
-      {/* 选项网格 2x2 */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-lg mx-auto">
+      {/* 选项列表（一行一个） */}
+      <div className="grid grid-cols-1 gap-4 w-full max-w-lg mx-auto">
         {currentQ.options.map((opt, i) => {
           const isCorrect = i === currentQ.correctIndex;
           const isSelected = i === selectedIndex;

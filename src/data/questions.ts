@@ -19,15 +19,12 @@ function generateMathQuestions(count: number): IQuestion[] {
     
     if (isAdd) {
       const rand = Math.random();
-      if (rand < 0.3) {
+      if (rand < 0.5) {
         num1 = Math.floor(Math.random() * 20) + 1;
         num2 = Math.floor(Math.random() * 20) + 1;
-      } else if (rand < 0.7) {
+      } else {
         num1 = Math.floor(Math.random() * 90) + 10;
         num2 = Math.floor(Math.random() * 90) + 10;
-      } else {
-        num1 = Math.floor(Math.random() * 900) + 100;
-        num2 = Math.floor(Math.random() * 900) + 100;
       }
     } else {
       num1 = Math.floor(Math.random() * 99) + 1;
